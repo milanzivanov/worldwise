@@ -13,18 +13,6 @@
       "id": 73930385
     },
     {
-      "cityName": "Madrid",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2027-07-15T08:22:53.976Z",
-      "notes": "",
-      "position": {
-        "lat": 40.46635901755316,
-        "lng": -3.7133789062500004
-      },
-      "id": 17806751
-    },
-    {
       "cityName": "Berlin",
       "country": "Germany",
       "emoji": "🇩🇪",
@@ -40,13 +28,13 @@
       "cityName": "Novi Knezevac",
       "country": "RS",
       "emoji": "🇷🇸",
-      "date": "2024-12-02T11:01:08.785Z",
-      "notes": "My born city",
+      "date": "2024-12-02T12:33:08.078Z",
+      "notes": "test",
       "position": {
-        "lat": "46.04237819106182",
-        "lng": "20.09296417236328"
+        "lat": "46.04106747439689",
+        "lng": "20.093307495117188"
       },
-      "id": 98443201
+      "id": 98443198
     }
   ]
 }
