@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react-refresh/only-export-components */
 import { useContext, createContext, useReducer } from "react";
 
@@ -23,7 +24,7 @@ function reducer(state, action) {
         isAuthenticated: false
       };
     default: {
-      throw new Error(`Unhandled action type: ${action.type}`);
+      throw new Error(`Unhandled action type`);
     }
   }
 }
@@ -36,7 +37,10 @@ const FAKE_USER = {
 };
 
 function AuthProvider({ children }) {
-  const [user, isAuthenticated, dispatch] = useReducer(reducer, initialState);
+  const [{ user, isAuthenticated }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
 
   function login(email, password) {
     if (email === FAKE_USER.email && password === FAKE_USER.password) {
@@ -48,15 +52,19 @@ function AuthProvider({ children }) {
     dispatch({ type: "logout" });
   }
 
-  <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
-    {children}
-  </AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined)
-    throw new Error("useAuth must be used within a AuthProvider");
+    throw new Error("AuthContext was used outside AuthProvider");
+
+  return context;
 }
 
 export { AuthProvider, useAuth };
