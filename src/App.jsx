@@ -24,7 +24,7 @@ function App() {
     <AuthProvider>
       <CitiesProvider>
         <BrowserRouter>
-          {/* suspance - lazy loading */}
+          {/* suspense - lazy loading */}
           <Suspense fallback={<SpinnerFullPage />}>
             <Routes>
               <Route index element={<Homepage />} />
