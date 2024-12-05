@@ -1,5 +1,9 @@
 import { lazy, Suspense } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  createBrowserRouter as BrowserRouter,
+  RouterProvider,
+  Navigate
+} from "react-router-dom";
 
 import { CitiesProvider } from "./context/CitiesContext";
 import { AuthProvider } from "./context/FakeAuthContext";
@@ -19,14 +23,80 @@ const Login = lazy(() => import("./pages/Login"));
 const AppLayout = lazy(() => import("./pages/AppLayout"));
 const PageNotFound = lazy(() => import("./pages/AppLayout"));
 
+const router = BrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Homepage />
+    },
+    {
+      path: "/product",
+      element: <Product />
+    },
+    {
+      path: "/pricing",
+      element: <Pricing />
+    },
+    {
+      path: "/login",
+      element: <Login />
+    },
+    {
+      path: "/app",
+      element: (
+        <ProtectedRoute>
+          <AppLayout />
+        </ProtectedRoute>
+      ),
+      children: [
+        {
+          index: true,
+          element: <Navigate replace to="cities" />
+        },
+        {
+          path: "cities",
+          element: <CityList />
+        },
+        {
+          path: "cities/:id",
+          element: <City />
+        },
+        {
+          path: "countries",
+          element: <CountryList />
+        },
+        {
+          path: "form",
+          element: <Form />
+        }
+      ]
+    },
+    {
+      path: "*",
+      element: <PageNotFound />
+    }
+  ],
+  {
+    future: {
+      v7_startTransition: true,
+      v7_startTransitions: true,
+      v7_relativeSplatPath: true,
+      v7_fetcherPersist: true,
+      v7_normalizeFormMethod: true,
+      v7_partialHydration: true,
+      v7_skipActionErrorRevalidation: true
+    }
+  }
+);
+
 function App() {
   return (
     <AuthProvider>
       <CitiesProvider>
-        <BrowserRouter>
-          {/* suspense - lazy loading */}
-          <Suspense fallback={<SpinnerFullPage />}>
-            <Routes>
+        {/* suspense - lazy loading */}
+        <Suspense fallback={<SpinnerFullPage />}>
+          <RouterProvider router={router} />
+          {/* <Routes>
               <Route index element={<Homepage />} />
               <Route path="/product" element={<Product />} />
               <Route path="/pricing" element={<Pricing />} />
@@ -46,9 +116,8 @@ function App() {
                 <Route path="form" element={<Form />} />
               </Route>
               <Route path="*" element={<PageNotFound />} />
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
+            </Routes> */}
+        </Suspense>
       </CitiesProvider>
     </AuthProvider>
   );
